@@ -13,6 +13,7 @@
 | M5 损失核算 | 执行并复核损失核算 | `POST /api/loss` | `app/modules/loss/rules.py` | `tests/test_loss.py` |
 | M6 能量对账 | 执行并复核能量对账 | `POST /api/reconcile` | `app/modules/reconcile/rules.py` | `tests/test_reconcile.py` |
 | M7 运行归档 | 执行并复核运行归档 | `POST /api/archive` | `app/modules/archive/rules.py` | `tests/test_archive.py` |
+| M8 结算裁定 | 执行并复核结算裁定 | `POST /api/settlement` | `app/modules/settlement/rules.py` | `tests/test_settlement.py` |
 
 ## 陷阱登记
 
@@ -33,6 +34,10 @@
 ## 对账规则
 
 原始逻辑输入=采纳行+隔离行+空行+重复表头+同值重复。业务计算按 DATA-DICTIONARY.md 分别核验，不能把上级与下级重复加总。所有隔离保留编号、原值、原始行号和稳定原因码。
+
+## 结算裁定
+
+每切片唯一定性：确认（损失已定，计入确认额）或待查（非限电停运/缺测/无对照，保留原因码与时长，不填0）。表计差额=确认额+待查差额，互斥且穷尽。受影响设备重算后逐台重新对账（并集时长=切片时长）。未闭合时正式凭据保持待复核；凭据按批幂等出具，同批重试数量不变；写库失败整体回滚，旧批保持可复核状态。结算页显示本次采用口径、确认额与待查差额。
 
 ## 已知不覆盖
 

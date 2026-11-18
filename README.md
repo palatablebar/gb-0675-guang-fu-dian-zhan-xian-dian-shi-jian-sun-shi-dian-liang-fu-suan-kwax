@@ -2,7 +2,7 @@
 
 给新能源场站运营分析员使用。仅用有效对照逆变器和相同辐照区间拟合基线；重叠限电事件先求并集再积分。
 
-七个业务模块：遥测采信、设备映射、事件切片、基线拟合、损失核算、能量对账、运行归档。
+七个业务模块：遥测采信、设备映射、事件切片、基线拟合、损失核算、能量对账、运行归档，外加结算裁定。
 
 ```sh
 docker compose up --build -d
@@ -14,6 +14,8 @@ docker compose exec -T app pytest -q
 各模块页面对应 `/<模块英文名>`，各模块执行入口为 `POST /api/<模块英文名>`，不传参即可独立演示。完整运行 `POST /api/runs` 支持 `dataset`（dirty/clean/legacy）、`csv_text` 与 `overrides` 参数。批次历史 `GET /api/runs`，详情 `GET /api/runs/{run_id}`。
 
 同输入与规则版本生成相同批号，只保留一条批次。复核入口 `POST /api/runs/{run_id}/review` 提交当前 `revision`，陈旧提交409。归档包只有一个下载入口 `GET /api/export/{run_id}`，含证据和运行摘要。原始隔离在页面同屏显示。
+
+结算裁定页显示本次采用口径、确认额与待查差额。表计差额=确认额+待查差额：确认额即可结算部分；非限电停运、缺测、无对照片段定性为待查，保留原因码与时长，不填0。`POST /api/runs/{run_id}/settle` 出具结算凭据，未闭合时凭据保持待复核；同一批重试凭据数量不变，出据失败回滚、旧批保持可复核。`GET /api/runs/{run_id}/vouchers` 查看本批凭据。
 
 SQLite使用命名卷，容器重启后保留历史。要重建演示可在Compose中改用新的卷名称，保留旧卷。
 

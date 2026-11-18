@@ -6,7 +6,8 @@
     "baseline",
     "loss",
     "reconcile",
-    "archive"
+    "archive",
+    "settlement"
   ],
   "devices": {
     "INV-A": {

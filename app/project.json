@@ -10,7 +10,8 @@
     "基线拟合",
     "损失核算",
     "能量对账",
-    "运行归档"
+    "运行归档",
+    "结算裁定"
   ],
   "rule": "仅用有效对照逆变器和相同辐照区间拟合基线；重叠限电事件先求并集再积分",
   "lane": "L10",
@@ -29,7 +30,8 @@
     "baseline",
     "loss",
     "reconcile",
-    "archive"
+    "archive",
+    "settlement"
   ],
   "labels": {
     "id": "证据号",
@@ -65,6 +67,13 @@
     "energy_balanced": "能量守恒",
     "unknown_segments": "未定片段",
     "unknown_seconds": "未定 s",
+    "segments": "切片数",
+    "confirmed_kwh": "确认额 kWh",
+    "pending_segments": "待查片段",
+    "pending_seconds": "待查 s",
+    "reconciled": "重新对账",
+    "segments_balanced": "片段守恒",
+    "devices_reconciled": "设备对账",
     "line": "原始行",
     "_line": "原始行",
     "detail": "原因"
